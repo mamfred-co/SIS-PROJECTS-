@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: rgb(18, 35, 45);
+        }
+
+        input {
+            height: 50px;
+            max-width: 11100px;
+            border: rgb(222, 219, 219);
+            border-radius: 0%;
+            background-color: rgb(18, 35, 45);
+            border-style: solid;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-style: none
+        }
+
+        .image_logo {
+            padding: 6px;
+        }
+
+        .butt_sub {
+            background-color: rgb(77, 129, 220);
+            width: 100%;
+            border-color: aliceblue;
+            height: 30px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-80" style="background-color: rgb(18, 35, 45); width: 400px;">
+        <center><img class="image_logo" src="C:\Users\User\Desktop\SIS\LOGO-clean.png" width="100px" height="100">
+        </center>
+        <form id="loginForm" class="space-y-4">
+            <div>
+
+                <input type="text" id="username" name="username" required placeholder="Username"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-opacity-50">
+            </div>
+            <div>
+
+                <input type="password" id="password" name="password" required placeholder="Password"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-opacity-50">
+            </div>
+            <button class="butt_sub" type="submit">LOGIN</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Get username and password values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Check login credentials
+            if (username === 'hr@sis.com' && password !== '') {
+                window.location.href = 'hr_dashboard.html'; // Example redirection
+                alert('Login successful!');
+            } else if (username === "technical@sis.com" && password !== '') {
+                window.location.href = 'technical.html'; // Example redirection
+                alert('Login successful!');
+            } else {
+                alert('Invalid username or password.'); // Error message
+            }
+        });
+    </script>
+</body>
+
+</html>

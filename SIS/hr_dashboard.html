@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Management Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4A49C4',
+                        'bg-light': '#FFFFFF',
+                        'bg-dark': '#181818',
+                        'card-light': '#F8F9FA',
+                        'card-dark': '#2A2A2A'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .dark .card-hover:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="bg-bg-light dark:bg-bg-dark text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="bg-white dark:bg-card-dark w-64 min-h-screen shadow-lg flex flex-col">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h1 class="text-xl font-bold text-primary">HR Dashboard</h1>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Management Portal</p>
+            </div>
+            
+            <nav class="flex-1 p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <button onclick="showSection('dashboard')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3 text-primary bg-gray-100 dark:bg-gray-700">
+                            <i class="fas fa-chart-line w-5"></i>
+                            <span>Dashboard</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('employees')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-users w-5"></i>
+                            <span>Employees</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('leave')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-calendar-alt w-5"></i>
+                            <span>Leave Requests</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('recruitment')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-user-plus w-5"></i>
+                            <span>Recruitment</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('performance')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-star w-5"></i>
+                            <span>Performance</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('payroll')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-dollar-sign w-5"></i>
+                            <span>Payroll</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('reports')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-chart-bar w-5"></i>
+                            <span>Reports</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Sarah Johnson</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">HR Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <header class="bg-white dark:bg-card-dark shadow-sm p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 id="page-title" class="text-2xl font-bold">Dashboard Overview</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Manage your HR operations efficiently</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 relative">
+                            <i class="fas fa-bell text-gray-600 dark:text-gray-400"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                        </button>
+                        <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                            <i class="fas fa-plus mr-2"></i>Quick Add
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="p-6">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="content-section">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Total Employees</p>
+                                    <p class="text-3xl font-bold mt-2">247</p>
+                                    <p class="text-green-600 text-sm mt-2">
+                                        <i class="fas fa-arrow-up mr-1"></i>+12 this month
+                                    </p>
+                                </div>
+                                <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">
+                                    <i class="fas fa-users text-blue-600 dark:text-blue-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Pending Leave</p>
+                                    <p class="text-3xl font-bold mt-2">18</p>
+                                    <p class="text-orange-600 text-sm mt-2">
+                                        <i class="fas fa-clock mr-1"></i>Needs approval
+                                    </p>
+                                </div>
+                                <div class="bg-orange-100 dark:bg-orange-900 p-3 rounded-lg">
+                                    <i class="fas fa-calendar-alt text-orange-600 dark:text-orange-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Open Positions</p>
+                                    <p class="text-3xl font-bold mt-2">7</p>
+                                    <p class="text-purple-600 text-sm mt-2">
+                                        <i class="fas fa-briefcase mr-1"></i>5 urgent
+                                    </p>
+                                </div>
+                                <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-lg">
+                                    <i class="fas fa-user-plus text-purple-600 dark:text-purple-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Performance Reviews</p>
+                                    <p class="text-3xl font-bold mt-2">34</p>
+                                    <p class="text-red-600 text-sm mt-2">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i>12 overdue
+                                    </p>
+                                </div>
+                                <div class="bg-red-100 dark:bg-red-900 p-3 rounded-lg">
+                                    <i class="fas fa-star text-red-600 dark:text-red-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity & Quick Actions -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                                    <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 dark:text-green-400 text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium">John Smith's leave approved</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                                    <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-user-plus text-blue-600 dark:text-blue-400 text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium">New hire: Emily Davis</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">5 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                                    <div class="w-8 h-8 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-star text-orange-600 dark:text-orange-400 text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium">Performance review completed</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">1 day ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+                            <div class="space-y-3">
+                                <button class="w-full text-left p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-all">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-user-plus text-primary"></i>
+                                        <div>
+                                            <p class="font-medium">Add New Employee</p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Register a new team member</p>
+                                        </div>
+                                    </div>
+                                </button>
+                                <button class="w-full text-left p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-all">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-calendar-check text-primary"></i>
+                                        <div>
+                                            <p class="font-medium">Approve Leave Requests</p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Review pending requests</p>
+                                        </div>
+                                    </div>
+                                </button>
+                                <button class="w-full text-left p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-all">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-file-alt text-primary"></i>
+                                        <div>
+                                            <p class="font-medium">Generate Report</p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Create monthly analytics</p>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employees Section -->
+                <div id="employees-section" class="content-section hidden">
+                    <div class="bg-white dark:bg-card-dark rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+                                <h3 class="text-lg font-semibold">Employee Directory</h3>
+                                <div class="flex flex-col sm:flex-row gap-3">
+                                    <!-- Category Filter Dropdown -->
+                                    <div class="relative">
+                                        <select id="categoryFilter" onchange="filterEmployees()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base pr-10 appearance-none">
+                                            <option value="all">All Categories</option>
+                                            <option value="internal">Internal Staff</option>
+                                            <option value="external">External Contractors</option>
+                                            <option value="irata">IRATA Certified</option>
+                                            <option value="welder">Non-IRATA Welders</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                            <i class="fas fa-chevron-down text-gray-500"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Search Input -->
+                                    <input type="text" id="searchInput" placeholder="Search employees..." class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" onkeyup="searchEmployees()">
+                                    
+                                    <!-- Add Employee Button -->
+                                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors whitespace-nowrap">
+                                        <i class="fas fa-plus mr-2"></i>Add Employee
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Category Stats -->
+                            <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                <div class="text-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">87</div>
+                                    <div class="text-sm text-blue-700 dark:text-blue-300">Internal Staff</div>
+                                </div>
+                                <div class="text-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">42</div>
+                                    <div class="text-sm text-purple-700 dark:text-purple-300">External</div>
+                                </div>
+                                <div class="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-600 dark:text-green-400">28</div>
+                                    <div class="text-sm text-green-700 dark:text-green-300">IRATA Certified</div>
+                                </div>
+                                <div class="text-center p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">14</div>
+                                    <div class="text-sm text-orange-700 dark:text-orange-300">Welders</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Employee</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Category</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Certifications</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Position</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="employeeTableBody" class="divide-y divide-gray-200 dark:divide-gray-600">
+                                    <tr data-category="internal">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-medium">JS</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">John Smith</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">john.smith@company.com</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                                Internal Staff
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span class="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-xs rounded">Safety Training</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">Site Manager</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-primary hover:text-primary-dark">Edit</button>
+                                            <button class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr data-category="irata">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-medium">MJ</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">Mike Johnson</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">mike.johnson@company.com</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                                IRATA Certified
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span class="inline-block px-2 py-0.5 bg-green-100 dark:bg-green-800 text-xs rounded text-green-800 dark:text-green-200">IRATA L3</span>
+                                                <span class="inline-block px-2 py-0.5 bg-blue-100 dark:bg-blue-800 text-xs rounded text-blue-800 dark:text-blue-200">Rescue</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">Rope Access Technician</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-primary hover:text-primary-dark">Edit</button>
+                                            <button class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr data-category="welder">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium">RW</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">Robert Wilson</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">robert.wilson@contractor.com</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                                                Non-IRATA Welder
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span class="inline-block px-2 py-0.5 bg-red-100 dark:bg-red-800 text-xs rounded text-red-800 dark:text-red-200">6G Welding</span>
+                                                <span class="inline-block px-2 py-0.5 bg-purple-100 dark:bg-purple-800 text-xs rounded text-purple-800 dark:text-purple-200">TIG/MIG</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">Certified Welder</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-primary hover:text-primary-dark">Edit</button>
+                                            <button class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr data-category="external">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-medium">AD</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">Anna Davis</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">anna.davis@external.com</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                                                External Contractor
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span class="inline-block px-2 py-0.5 bg-yellow-100 dark:bg-yellow-800 text-xs rounded text-yellow-800 dark:text-yellow-200">NDT Level 2</span>
+                                                <span class="inline-block px-2 py-0.5 bg-indigo-100 dark:bg-indigo-800 text-xs rounded text-indigo-800 dark:text-indigo-200">Inspection</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">Quality Inspector</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                                Contract
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-primary hover:text-primary-dark">Edit</button>
+                                            <button class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr data-category="irata">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-medium">TB</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">Tom Brown</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">tom.brown@company.com</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                                IRATA Certified
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span class="inline-block px-2 py-0.5 bg-green-100 dark:bg-green-800 text-xs rounded text-green-800 dark:text-green-200">IRATA L2</span>
+                                                <span class="inline-block px-2 py-0.5 bg-red-100 dark:bg-red-800 text-xs rounded text-red-800 dark:text-red-200">Welding</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">Rope Access Welder</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-primary hover:text-primary-dark">Edit</button>
+                                            <button class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leave Requests Section -->
+                <div id="leave-section" class="content-section hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="bg-white dark:bg-card-dark rounded-xl shadow-sm">
+                                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 class="text-lg font-semibold">Pending Leave Requests</h3>
+                                </div>
+                                <div class="p-6 space-y-4">
+                                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="flex items-center space-x-3 mb-2">
+                                                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm font-medium">ED</div>
+                                                    <div>
+                                                        <p class="font-medium">Emily Davis</p>
+                                                        <p class="text-sm text-gray-600 dark:text-gray-400">Marketing Manager</p>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-11">
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Annual Leave: Dec 23 - Jan 2</p>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Reason: Holiday vacation</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex space-x-2">
+                                                <button class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">Approve</button>
+                                                <button class="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700">Reject</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="bg-white dark:bg-card-dark rounded-xl shadow-sm p-6">
+                                <h3 class="text-lg font-semibold mb-4">Leave Statistics</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span>Approved This Month</span>
+                                            <span>24</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 80%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span>Pending Approval</span>
+                                            <span>18</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                            <div class="bg-orange-600 h-2 rounded-full" style="width: 60%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other sections would be implemented similarly -->
+                <div id="recruitment-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Recruitment Management</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Recruitment features coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="performance-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Performance Management</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Performance tracking features coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="payroll-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Payroll Management</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Payroll features coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="reports-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Reports & Analytics</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Reporting features coming soon...</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode detection and handling
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Navigation functionality
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.remove('hidden');
+            document.getElementById(sectionName + '-section').classList.add('fade-in');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('text-primary', 'bg-gray-100', 'dark:bg-gray-700');
+            });
+            event.target.classList.add('text-primary', 'bg-gray-100', 'dark:bg-gray-700');
+            
+            // Update page title
+            const titles = {
+                'dashboard': 'Dashboard Overview',
+                'employees': 'Employee Management',
+                'leave': 'Leave Management',
+                'recruitment': 'Recruitment',
+                'performance': 'Performance Reviews',
+                'payroll': 'Payroll Management',
+                'reports': 'Reports & Analytics'
+            };
+            document.getElementById('page-title').textContent = titles[sectionName] || 'Dashboard';
+        }
+
+        // Employee filtering and search functionality
+        function filterEmployees() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#employeeTableBody tr');
+
+            rows.forEach(row => {
+                const category = row.getAttribute('data-category');
+                const employeeName = row.querySelector('.text-sm.font-medium').textContent.toLowerCase();
+                const employeeEmail = row.querySelector('.text-gray-500').textContent.toLowerCase();
+                const position = row.querySelectorAll('td')[3].textContent.toLowerCase();
+
+                const categoryMatch = categoryFilter === 'all' || category === categoryFilter;
+                const searchMatch = searchTerm === '' || 
+                    employeeName.includes(searchTerm) || 
+                    employeeEmail.includes(searchTerm) || 
+                    position.includes(searchTerm);
+
+                if (categoryMatch && searchMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function searchEmployees() {
+            filterEmployees(); // Reuse the same filtering logic
+        }
+
+        // Mobile responsiveness - hide sidebar on small screens when clicking outside
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add mobile menu toggle if needed
+            if (window.innerWidth < 768) {
+                console.log('Mobile view detected');
+            }
+        });
+    </script>
+</body>
+</html>
