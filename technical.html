@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Management Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4A49C4',
+                        'bg-light': '#FFFFFF',
+                        'bg-dark': '#181818',
+                        'card-light': '#F8F9FA',
+                        'card-dark': '#2A2A2A'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .card-hover:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-bg-light dark:bg-bg-dark text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="bg-white dark:bg-card-dark w-64 min-h-screen shadow-lg flex flex-col">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h1 class="text-xl font-bold text-primary">Technical Dashboard</h1>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Operations Control</p>
+            </div>
+
+            <nav class="flex-1 p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <button onclick="showSection('dashboard')"
+                            class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3 text-primary bg-gray-100 dark:bg-gray-700">
+                            <i class="fas fa-chart-line w-5"></i>
+                            <span>Dashboard</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('projects')"
+                            class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-project-diagram w-5"></i>
+                            <span>Projects</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('technicians')"
+                            class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-hard-hat w-5"></i>
+                            <span>Technicians</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('equipment')"
+                            class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-tools w-5"></i>
+                            <span>Equipment</span>
+                        </button>
+                    </li>
+
+                    <li>
+                        <button onclick="showSection('scheduling')"
+                            class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-calendar-check w-5"></i>
+                            <span>Scheduling</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('reports')"
+                            class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                            <i class="fas fa-file-chart-column w-5"></i>
+                            <span>Technical Reports</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">David Martinez</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Technical Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <header class="bg-white dark:bg-card-dark shadow-sm p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 id="page-title" class="text-2xl font-bold">Technical Operations Overview</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Monitor projects, resources, and safety
+                            compliance</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 relative">
+                            <i class="fas fa-exclamation-triangle text-orange-600 dark:text-orange-400"></i>
+                            <span
+                                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">2</span>
+                        </button>
+                        <button
+                            class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                            <i class="fas fa-plus mr-2"></i>New Task
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="p-6">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="content-section">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Active Projects</p>
+                                    <p class="text-3xl font-bold mt-2">12</p>
+                                    <p class="text-blue-600 text-sm mt-2">
+                                        <i class="fas fa-arrow-up mr-1"></i>3 new this week
+                                    </p>
+                                </div>
+                                <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">
+                                    <i class="fas fa-project-diagram text-blue-600 dark:text-blue-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Available Technicians</p>
+                                    <p class="text-3xl font-bold mt-2">34</p>
+                                    <p class="text-green-600 text-sm mt-2">
+                                        <i class="fas fa-check mr-1"></i>89% utilization
+                                    </p>
+                                </div>
+                                <div class="bg-green-100 dark:bg-green-900 p-3 rounded-lg">
+                                    <i class="fas fa-hard-hat text-green-600 dark:text-green-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Equipment Status</p>
+                                    <p class="text-3xl font-bold mt-2">156</p>
+                                    <p class="text-orange-600 text-sm mt-2">
+                                        <i class="fas fa-wrench mr-1"></i>8 maintenance due
+                                    </p>
+                                </div>
+                                <div class="bg-orange-100 dark:bg-orange-900 p-3 rounded-lg">
+                                    <i class="fas fa-tools text-orange-600 dark:text-orange-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Safety Incidents</p>
+                                    <p class="text-3xl font-bold mt-2">2</p>
+                                    <p class="text-red-600 text-sm mt-2">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i>This month
+                                    </p>
+                                </div>
+                                <div class="bg-red-100 dark:bg-red-900 p-3 rounded-lg">
+                                    <i class="fas fa-shield-alt text-red-600 dark:text-red-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Progress & Alerts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">Project Progress</h3>
+                            <div class="space-y-4">
+                                <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="font-medium">Offshore Platform Maintenance</h4>
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">78%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                        <div class="bg-green-600 h-2 rounded-full progress-bar" style="width: 78%">
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">8 IRATA technicians • Due:
+                                        Dec 15</p>
+                                </div>
+                                <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="font-medium">Pipeline Welding Inspection</h4>
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">45%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                        <div class="bg-blue-600 h-2 rounded-full progress-bar" style="width: 45%"></div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">6 certified welders • Due:
+                                        Jan 5</p>
+                                </div>
+                                <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="font-medium">Tank Structural Repairs</h4>
+                                        <span class="text-sm text-orange-600 dark:text-orange-400">12%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                        <div class="bg-orange-600 h-2 rounded-full progress-bar" style="width: 12%">
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">4 external contractors •
+                                        Due: Feb 1</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">Critical Alerts</h3>
+                            <div class="space-y-4">
+                                <div
+                                    class="flex items-start space-x-3 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                                    <div
+                                        class="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
+                                        <i
+                                            class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-red-800 dark:text-red-200">Equipment
+                                            Maintenance Overdue</p>
+                                        <p class="text-xs text-red-700 dark:text-red-300">Crane #RC-04 inspection 5 days
+                                            overdue</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-start space-x-3 p-3 rounded-lg bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800">
+                                    <div
+                                        class="w-8 h-8 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-clock text-orange-600 dark:text-orange-400 text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-orange-800 dark:text-orange-200">
+                                            Certification Expiring</p>
+                                        <p class="text-xs text-orange-700 dark:text-orange-300">3 IRATA certs expire
+                                            this month</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-start space-x-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                                    <div
+                                        class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-info text-blue-600 dark:text-blue-400 text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-blue-800 dark:text-blue-200">Resource
+                                            Allocation</p>
+                                        <p class="text-xs text-blue-700 dark:text-blue-300">New project requires 4
+                                            additional welders</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-white dark:bg-card-dark p-6 rounded-xl shadow-sm">
+                        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <button
+                                class="p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-all text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-clipboard-list text-primary text-xl"></i>
+                                    <div>
+                                        <p class="font-medium">Assign Technicians</p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">To active projects</p>
+                                    </div>
+                                </div>
+                            </button>
+                            <button
+                                class="p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-all text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-wrench text-primary text-xl"></i>
+                                    <div>
+                                        <p class="font-medium">Schedule Maintenance</p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Equipment service</p>
+                                    </div>
+                                </div>
+                            </button>
+                            <button
+                                class="p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-all text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-file-medical text-primary text-xl"></i>
+                                    <div>
+                                        <p class="font-medium">Safety Inspection</p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Log inspection report</p>
+                                    </div>
+                                </div>
+                            </button>
+                            <button
+                                class="p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-all text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-chart-bar text-primary text-xl"></i>
+                                    <div>
+                                        <p class="font-medium">Generate Report</p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Technical analytics</p>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technicians Section -->
+                <div id="technicians-section" class="content-section hidden">
+                    <div class="bg-white dark:bg-card-dark rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+                                <h3 class="text-lg font-semibold">Technical Workforce</h3>
+                                <div class="flex flex-col sm:flex-row gap-3">
+                                    <!-- Skill Filter Dropdown -->
+                                    <div class="relative">
+                                        <select id="skillFilter" onchange="filterTechnicians()"
+                                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base pr-10 appearance-none">
+                                            <option value="all">All Skills</option>
+                                            <option value="irata">IRATA Certified</option>
+                                            <option value="welder">Certified Welders</option>
+                                            <option value="ndt">NDT Inspectors</option>
+                                            <option value="electrical">Electrical</option>
+                                            <option value="mechanical">Mechanical</option>
+                                        </select>
+                                        <div
+                                            class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                            <i class="fas fa-chevron-down text-gray-500"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Availability Filter -->
+                                    <div class="relative">
+                                        <select id="availabilityFilter" onchange="filterTechnicians()"
+                                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base pr-10 appearance-none">
+                                            <option value="all">All Status</option>
+                                            <option value="available">Available</option>
+                                            <option value="assigned">Assigned</option>
+                                            <option value="maintenance">On Maintenance</option>
+                                        </select>
+                                        <div
+                                            class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                            <i class="fas fa-chevron-down text-gray-500"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Search Input -->
+                                    <input type="text" id="techSearchInput" placeholder="Search technicians..."
+                                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base"
+                                        onkeyup="searchTechnicians()">
+
+                                    <!-- Assign Button -->
+                                    <button
+                                        class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors whitespace-nowrap">
+                                        <i class="fas fa-user-plus mr-2"></i>Assign to Project
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Skill Statistics -->
+                            <div class="mt-4 grid grid-cols-2 sm:grid-cols-5 gap-4">
+                                <div class="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-600 dark:text-green-400">18</div>
+                                    <div class="text-sm text-green-700 dark:text-green-300">IRATA</div>
+                                </div>
+                                <div class="text-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-red-600 dark:text-red-400">12</div>
+                                    <div class="text-sm text-red-700 dark:text-red-300">Welders</div>
+                                </div>
+                                <div class="text-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">8</div>
+                                    <div class="text-sm text-yellow-700 dark:text-yellow-300">NDT</div>
+                                </div>
+                                <div class="text-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">6</div>
+                                    <div class="text-sm text-blue-700 dark:text-blue-300">Electrical</div>
+                                </div>
+                                <div class="text-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">4</div>
+                                    <div class="text-sm text-purple-700 dark:text-purple-300">Mechanical</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                            Technician</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                            Primary Skill</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                            Certifications</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                            Current Assignment</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                            Status</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="technicianTableBody" class="divide-y divide-gray-200 dark:divide-gray-600">
+                                    <tr data-skill="irata" data-availability="assigned">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-medium">
+                                                    MJ</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">Mike Johnson</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">5 years
+                                                        experience</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                                IRATA L3
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-green-100 dark:bg-green-800 text-xs rounded text-green-800 dark:text-green-200">IRATA
+                                                    L3</span>
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-blue-100 dark:bg-blue-800 text-xs rounded text-blue-800 dark:text-blue-200">Rescue</span>
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-xs rounded">Safety</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">Platform Maintenance</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                                Assigned
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-primary hover:text-primary-dark">Reassign</button>
+                                            <button
+                                                class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr data-skill="welder" data-availability="available">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white font-medium">
+                                                    RW</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">Robert Wilson</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">8 years
+                                                        experience</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                                                6G Welder
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-red-100 dark:bg-red-800 text-xs rounded text-red-800 dark:text-red-200">6G
+                                                    Cert</span>
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-purple-100 dark:bg-purple-800 text-xs rounded text-purple-800 dark:text-purple-200">TIG/MIG</span>
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-orange-100 dark:bg-orange-800 text-xs rounded text-orange-800 dark:text-orange-200">Underwater</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">Unassigned</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                                Available
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-primary hover:text-primary-dark">Assign</button>
+                                            <button
+                                                class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr data-skill="ndt" data-availability="assigned">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center text-white font-medium">
+                                                    AD</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">Anna Davis</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">6 years
+                                                        experience</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                                NDT Level 2
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-yellow-100 dark:bg-yellow-800 text-xs rounded text-yellow-800 dark:text-yellow-200">NDT
+                                                    L2</span>
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-indigo-100 dark:bg-indigo-800 text-xs rounded text-indigo-800 dark:text-indigo-200">UT/MT</span>
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-pink-100 dark:bg-pink-800 text-xs rounded text-pink-800 dark:text-pink-200">RT</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">Pipeline Inspection</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                                Assigned
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-primary hover:text-primary-dark">Reassign</button>
+                                            <button
+                                                class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr data-skill="electrical" data-availability="maintenance">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-medium">
+                                                    JS</div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium">John Smith</div>
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400">12 years
+                                                        experience</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                                Electrical
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="space-y-1">
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-blue-100 dark:bg-blue-800 text-xs rounded text-blue-800 dark:text-blue-200">Electrical</span>
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-800 text-xs rounded text-cyan-800 dark:text-cyan-200">Control
+                                                    Systems</span>
+                                                <span
+                                                    class="inline-block px-2 py-0.5 bg-teal-100 dark:bg-teal-800 text-xs rounded text-teal-800 dark:text-teal-200">HV</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">Training/Medical
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                                                On Leave
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                            <button class="text-gray-400 cursor-not-allowed">Assign</button>
+                                            <button
+                                                class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other sections placeholder -->
+                <div id="projects-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Project Management</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Detailed project tracking coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="equipment-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Equipment Management</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Equipment tracking and maintenance scheduling coming
+                            soon...</p>
+                    </div>
+                </div>
+
+                <div id="safety-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Safety & Quality Control</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Safety compliance and QC management coming soon...
+                        </p>
+                    </div>
+                </div>
+
+                <div id="scheduling-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Resource Scheduling</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Advanced scheduling and resource allocation coming
+                            soon...</p>
+                    </div>
+                </div>
+
+                <div id="reports-section" class="content-section hidden">
+                    <div class="text-center py-12">
+                        <h3 class="text-xl font-semibold mb-4">Technical Reports</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Technical analytics and reporting coming soon...</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode detection and handling
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Navigation functionality
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.remove('hidden');
+            document.getElementById(sectionName + '-section').classList.add('fade-in');
+
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('text-primary', 'bg-gray-100', 'dark:bg-gray-700');
+            });
+            event.target.classList.add('text-primary', 'bg-gray-100', 'dark:bg-gray-700');
+
+            // Update page title
+            const titles = {
+                'dashboard': 'Technical Operations Overview',
+                'projects': 'Project Management',
+                'technicians': 'Technical Workforce',
+                'equipment': 'Equipment Management',
+                'safety': 'Safety & Quality Control',
+                'scheduling': 'Resource Scheduling',
+                'reports': 'Technical Reports'
+            };
+            document.getElementById('page-title').textContent = titles[sectionName] || 'Technical Dashboard';
+        }
+
+        // Technician filtering and search functionality
+        function filterTechnicians() {
+            const skillFilter = document.getElementById('skillFilter').value;
+            const availabilityFilter = document.getElementById('availabilityFilter').value;
+            const searchTerm = document.getElementById('techSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#technicianTableBody tr');
+
+            rows.forEach(row => {
+                const skill = row.getAttribute('data-skill');
+                const availability = row.getAttribute('data-availability');
+                const technicianName = row.querySelector('.text-sm.font-medium').textContent.toLowerCase();
+                const assignment = row.querySelectorAll('td')[3].textContent.toLowerCase();
+
+                const skillMatch = skillFilter === 'all' || skill === skillFilter;
+                const availabilityMatch = availabilityFilter === 'all' || availability === availabilityFilter;
+                const searchMatch = searchTerm === '' ||
+                    technicianName.includes(searchTerm) ||
+                    assignment.includes(searchTerm);
+
+                if (skillMatch && availabilityMatch && searchMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function searchTechnicians() {
+            filterTechnicians(); // Reuse the same filtering logic
+        }
+
+        // Mobile responsiveness
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.innerWidth < 768) {
+                console.log('Mobile view detected');
+            }
+        });
+    </script>
+</body>
+
+</html>
