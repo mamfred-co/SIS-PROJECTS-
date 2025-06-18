@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="C:\Users\User\Desktop\SIS\LOGO.jpg">
-    <title>Customer Feedback Form - EEAT Group</title>
+    <link rel="icon" href="C:\Users\User\Desktop\SIS\LOGO-clean.png">
+    <title>Customer Feedback Form - SIS INSPECTIONS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* CSS STYLES */
         :root {
-            --primary-color: #e9e9ec;
-            --oil-blue: #1e8a23;
-            --gas-orange: #148de9;
+            --primary-color: #44f18c;
+            --oil-blue: #44f18c;
+            --gas-orange: #3c0cea;
         }
 
         .star-rating {
@@ -145,21 +145,20 @@
     <div class="max-w-4xl mx-auto p-6">
         <!-- Header with Logo Spaces -->
         <div class="gradient-header p-6 rounded-t-lg shadow-lg">
+
             <div class="flex justify-between items-center mb-4">
 
 
                 <!-- Center Title -->
                 <div class="flex-2 text-center px-4">
-                    <h1 class="text-2x1 md:text-3xl font-bold text-white">Customer Feedback Form</h1>
-                    <p class="text-white/90 mt-1" ;
-                        style="font-size:45; font-family: Georgia, 'Times New Roman', Times, serif;">STARK INSPPECTION
-                        SERVICE<br>(SIS)</br> </p>
+                    <h1 class="text-2xl md:text-3xl font-bold text-white">Customer Feedback Form</h1>
+                    <p class="text-white/90 mt-1">STARK INSPECTION SERVICES-GABON<br>(SIS)</br> </p>
                 </div>
 
                 <!-- EEAT Group Logo Space -->
                 <div class="flex-1 flex justify-end">
 
-                    <img src="C:\Users\User\Desktop\SIS\LOGO-clean.png" alt="Girl in a jacket" width="300" height="400">
+                    <img src="C:\Users\User\Desktop\SIS\LOGO-clean.png" alt="SIS LOGO" width="200" height="300">
 
                 </div>
             </div>
@@ -175,7 +174,10 @@
             <form id="feedbackForm" class="space-y-8" form action="https://formsubmit.co/admin@sis-ag.com"
                 method="POST">
 
-                <input type="hidden" name="access_key" value="dc06dafb-95c5-4dd1-ae55-13978d360385">
+                <!--code to copy mail to nessary paties -->
+                <!-- <input type="hidden" name="_cc" value="info@eeatgroup.com"> -->
+                <input type="hidden" name="_template" value="table">
+
 
                 <!-- Project Information -->
                 <div class="grid md:grid-cols-2 gap-6">
@@ -183,7 +185,7 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Company Name *
                         </label>
-                        <input type="text" required name="Company Name"
+                        <input type="text" required name="COMPANY NAME"
                             class="form-input dark:bg-gray-700 dark:text-white" placeholder="Your company name">
                     </div>
                     <div>
@@ -220,15 +222,15 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Contact Person *
                         </label>
-                        <input type="text" required name="Contact Person"
+                        <input type="text" required name="CONTACT PERSON"
                             class="form-input dark:bg-gray-700 dark:text-white" placeholder="Full name">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Email Address *
                         </label>
-                        <input type="email" required name="Email (client email)"
-                            class="form-input dark:bg-gray-700 dark:text-white" placeholder="contact@company.com">
+                        <input type="email" required name="EMAIL" class="form-input dark:bg-gray-700 dark:text-white"
+                            placeholder="contact@company.com">
                     </div>
                 </div>
 
@@ -238,12 +240,13 @@
                     <div class="flex flex-col sm:flex-row sm:items-center gap-4">
                         <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Rate your overall
                             experience:</span>
-                        <div class="star-rating" data-rating="overall-satisfaction">
-                            <span class="star" data-value="1">★</span>
-                            <span class="star" data-value="2">★</span>
-                            <span class="star" data-value="3">★</span>
-                            <span class="star" data-value="4">★</span>
-                            <span class="star" data-value="5">★</span>
+                        <div class="star-rating" data-rating="Overall-Satisfaction">
+                            <input type="hidden" name="OVERALL_SATISFACTION" value="0"> <!-- Hidden input -->
+                            <span class="star" data-value="1">&#9734</span>
+                            <span class="star" data-value="2">&#9734</span>
+                            <span class="star" data-value="3">&#9734</span>
+                            <span class="star" data-value="4">&#9734</span>
+                            <span class="star" data-value="5">&#9734</span>
                         </div>
                         <span class="text-sm text-gray-500 dark:text-gray-400">(1 = Poor, 2 = Bad, 3 = Good, 4 = V.Good
                             5 =
@@ -261,12 +264,13 @@
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Technical Expertise
                             </label>
-                            <div class="star-rating" data-rating="technical-expertise">
-                                <span class="star" data-value="1">★</span>
-                                <span class="star" data-value="2">★</span>
-                                <span class="star" data-value="3">★</span>
-                                <span class="star" data-value="4">★</span>
-                                <span class="star" data-value="5">★</span>
+                            <div class="star-rating" data-rating="Technical-Expertise">
+                                <input type="hidden" name="TECHNICAL-EXPERTISE" value="0"> <!-- Hidden input -->
+                                <span class="star" data-value="1">&#9734</span>
+                                <span class="star" data-value="2">&#9734</span>
+                                <span class="star" data-value="3">&#9734</span>
+                                <span class="star" data-value="4">&#9734</span>
+                                <span class="star" data-value="5">&#9734</span>
                             </div>
                         </div>
 
@@ -276,11 +280,12 @@
                                 Timeline Adherence
                             </label>
                             <div class="star-rating" data-rating="timeline-adherence">
-                                <span class="star" data-value="1">★</span>
-                                <span class="star" data-value="2">★</span>
-                                <span class="star" data-value="3">★</span>
-                                <span class="star" data-value="4">★</span>
-                                <span class="star" data-value="5">★</span>
+                                <input type="hidden" name="Technical-Adherence" value="0"> <!-- Hidden input -->
+                                <span class="star" data-value="1">&#9734</span>
+                                <span class="star" data-value="2">&#9734</span>
+                                <span class="star" data-value="3">&#9734</span>
+                                <span class="star" data-value="4">&#9734</span>
+                                <span class="star" data-value="5">&#9734</span>
                             </div>
                         </div>
 
@@ -290,11 +295,12 @@
                                 Communication Quality
                             </label>
                             <div class="star-rating" data-rating="communication">
-                                <span class="star" data-value="1">★</span>
-                                <span class="star" data-value="2">★</span>
-                                <span class="star" data-value="3">★</span>
-                                <span class="star" data-value="4">★</span>
-                                <span class="star" data-value="5">★</span>
+                                <input type="hidden" name="Communication" value="0"> <!-- Hidden input -->
+                                <span class="star" data-value="1">&#9734</span>
+                                <span class="star" data-value="2">&#9734</span>
+                                <span class="star" data-value="3">&#9734</span>
+                                <span class="star" data-value="4">&#9734</span>
+                                <span class="star" data-value="5">&#9734</span>
                             </div>
                         </div>
 
@@ -304,11 +310,12 @@
                                 Safety Standards
                             </label>
                             <div class="star-rating" data-rating="safety-standards">
-                                <span class="star" data-value="1">★</span>
-                                <span class="star" data-value="2">★</span>
-                                <span class="star" data-value="3">★</span>
-                                <span class="star" data-value="4">★</span>
-                                <span class="star" data-value="5">★</span>
+                                <input type="hidden" name="Safety-Standards" value="0"> <!-- Hidden input -->
+                                <span class="star" data-value="1">&#9734</span>
+                                <span class="star" data-value="2">&#9734</span>
+                                <span class="star" data-value="3">&#9734</span>
+                                <span class="star" data-value="4">&#9734</span>
+                                <span class="star" data-value="5">&#9734</span>
                             </div>
                         </div>
                     </div>
@@ -349,7 +356,7 @@
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Recommendation</h3>
                     <div class="space-y-3">
                         <p class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Would you recommend to other STARK INSPPECTION SERVICES companies in the oil & gas industry?
+                            Would you recommend EEAT Group to other companies in the oil & gas industry?
                         </p>
                         <div class="flex flex-wrap gap-4">
                             <label class="flex items-center">
@@ -379,7 +386,6 @@
                             </label>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Submit Button -->
@@ -395,7 +401,7 @@
         <!-- Footer -->
         <div class="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
             <p>Thank you for taking the time to provide your valuable feedback.</p>
-            <p class="mt-1">SIS - Excellence in Oil & Gas Services | www.sis-ag.com</p>
+            <p class="mt-1">STARK INSPPECTION SERVICES-GABON - Excellence in Oil & Gas Services | sis-ag.com</p>
         </div>
     </div>
 
@@ -421,16 +427,19 @@
         }
 
         // Star rating functionality
+
         function initializeStarRatings() {
             document.querySelectorAll('.star-rating').forEach(rating => {
                 const stars = rating.querySelectorAll('.star');
-                let currentRating = 0;
+                const hiddenInput = rating.querySelector('input[type="hidden"]'); // Get the hidden input
+                let currentRating = 0; // Use a number to track the current rating
 
                 stars.forEach((star, index) => {
                     star.addEventListener('click', () => {
-                        currentRating = index + 1;
-                        updateStars(stars, currentRating);
+                        currentRating = index + 1; // Update currentRating on click
+                        updateStars(stars, currentRating); // Update star visuals
                         rating.setAttribute('data-value', currentRating);
+                        hiddenInput.value = currentRating;  // Update hidden input with numeric value
                     });
 
                     star.addEventListener('mouseenter', () => {
@@ -439,7 +448,7 @@
                 });
 
                 rating.addEventListener('mouseleave', () => {
-                    updateStars(stars, currentRating);
+                    updateStars(stars, currentRating); // Keep the current rating highlighted
                 });
             });
         }
@@ -447,66 +456,63 @@
         function updateStars(stars, rating) {
             stars.forEach((star, index) => {
                 if (index < rating) {
-                    star.classList.add('active');
+                    star.classList.add('active'); // Add active class for selected stars
                 } else {
-                    star.classList.remove('active');
+                    star.classList.remove('active'); // Remove active class for unselected stars
                 }
             });
         }
 
         // Form submission handler
-        /*
-                function initializeFormSubmission() {
-                    //document.getElementById('feedbackForm').addEventListener('submit', handleFormSubmit);
-                    const form = document.getElementById('form');
-                    const result = document.getElementById('result');
-                    form.addEventListener('submit', function (e) {
-                        e.preventDefault();
-                        const formData = new FormData(form);
-                        const object = Object.fromEntries(formData);
-                        const json = JSON.stringify(object);
-                        result.innerHTML = "Please wait..."
-        
-                        fetch('https://api.web3forms.com/submit', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            },
-                            body: json
-                        })
-                            .then(async (response) => {
-                                let json = await response.json();
-                                if (response.status == 200) {
-                                    result.innerHTML = "Form submitted successfully";
-                                } else {
-                                    console.log(response);
-                                    result.innerHTML = json.message;
-                                }
-                            })
-        
-                            .catch(error => {
-                                console.log(error);
-                                result.innerHTML = "Something went wrong!";
-                            })
-                            .then(function () {
-                                form.reset();
-                                setTimeout(() => {
-                                    result.style.display = "none";
-                                }, 3000);
-                            });
+
+        function initializeFormSubmission() {
+            //document.getElementById('feedbackForm').addEventListener('submit', handleFormSubmit);
+            const form = document.getElementById('form');
+            const result = document.getElementById('result');
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const object = Object.fromEntries(formData);
+                const json = JSON.stringify(object);
+                result.innerHTML = "Please wait..."
+
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
+                })
+
+                    .then(async (response) => {
+                        let json = await response.json();
+                        if (response.status == 200) {
+                            result.innerHTML = "Form submitted successfully";
+                        } else {
+                            console.log(response);
+                            result.innerHTML = json.message;
+                        }
+                    })
+
+                    .catch(error => {
+                        console.log(error);
+                        result.innerHTML = "Something went wrong!";
+                    })
+                    .then(function () {
+                        form.reset();
+                        setTimeout(() => {
+                            result.style.display = "none";
+                        }, 3000);
                     });
-                }
-                    */
+            });
+        }
 
         function handleFormSubmit(event) {
             event.preventDefault();
 
             // Collect form data
             const formData = collectFormData();
-
-            // Show success notification
-            showSuccessNotification();
 
             // Log data (in a real application, this would be sent to a server)
             console.log('Feedback submitted:', formData);
@@ -534,26 +540,6 @@
             }
         }
 
-        function showSuccessNotification() {
-            const notification = document.createElement('div');
-            notification.className = 'success-notification';
-            notification.innerHTML = `
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Feedback submitted successfully!</span>
-            `;
-
-            document.body.appendChild(notification);
-
-            // Auto-remove notification after 3 seconds
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 3000);
-        }
-
         // Initialize all functionality when DOM is loaded
         document.addEventListener('DOMContentLoaded', function () {
             initializeDarkMode();
@@ -567,10 +553,6 @@
             showSuccessNotification,
             updateStars
         };
-
-        //const form = document.getElementById('form');
-        //const result = document.getElementById('result');
-
 
     </script>
 </body>
